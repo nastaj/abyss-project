@@ -118,8 +118,6 @@ using System;
             // Check jump state (for isJumping)
             bool isJumping = !_motor.GroundingStatus.IsStableOnGround;
             _animator.SetBool("isJumping", isJumping);
-
-            Debug.Log(isJumping);
         }
 
         public bool IsColliderValidForCollisions(Collider coll)
