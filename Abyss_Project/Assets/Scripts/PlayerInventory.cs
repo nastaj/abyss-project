@@ -8,12 +8,14 @@ public class PlayerInventory : MonoBehaviour
     public int NumberOfSamples {get; private set; }
     public int NumberOfMeat {get; private set; }
     public int NumberOfSurveys {get; private set; }
+    public int NumberOfSwords {get; private set; }
 
     public UnityEvent<PlayerInventory> OnAppleCollected;
     public UnityEvent<PlayerInventory> OnMushroomCollected;
     public UnityEvent<PlayerInventory> OnSampleCollected;
     public UnityEvent<PlayerInventory> OnMeatCollected;
     public UnityEvent<PlayerInventory> OnSurveyCollected;
+    public UnityEvent<PlayerInventory> OnSwordCollected;
 
     public void AppleCollected()
     {
@@ -43,5 +45,11 @@ public class PlayerInventory : MonoBehaviour
     {
         NumberOfSurveys++;
         OnSurveyCollected.Invoke(this);
+    }
+
+    public void SwordCollected()
+    {
+        NumberOfSwords++;
+        OnSwordCollected.Invoke(this);
     }
 }

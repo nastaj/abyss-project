@@ -7,7 +7,7 @@ public class FinalCutsceneTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Final cutscene entered");
-            FindObjectOfType<CutsceneVideoTrigger>().PlayEndCutscene();
+            FindObjectOfType<CutsceneVideoController>().PlayEndCutscene();
         }
     }
 }

@@ -1,12 +1,22 @@
 using UnityEngine;
 using TMPro;
 
-public class InventoryUI : MonoBehaviour
+public class ObjectivesUI : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI counter;
     [SerializeField]
     private TextMeshProUGUI description;
+
+   void Start()
+   {
+        if (description.text.Contains("Grab sword") || description.text.Contains("Enter cave"))
+        {
+            counter.enabled = false;
+            description.enabled = false;
+        }
+
+   }
 
    public void UpdateAppleQuest(PlayerInventory playerInventory)
    {
@@ -62,4 +72,45 @@ public class InventoryUI : MonoBehaviour
             description.text = "- Done";
         }
    }
+
+    public void UpdateSwordQuest(PlayerInventory playerInventory)
+   {
+        counter.text = playerInventory.NumberOfSwords.ToString();
+
+        if (playerInventory.NumberOfSwords == 1)
+        {
+            counter.text = "";
+            description.text = "- Done";
+        }
+   }
+
+   public void ShowSwordQuest()
+   {
+        if (description.text.Contains("Grab sword"))
+        {
+            counter.enabled = true;
+            description.enabled = true;
+        }
+   }
+
+   public void ShowCaveQuest()
+   {
+        if (description.text.Contains("Enter cave"))
+        {
+            counter.enabled = true;
+            description.enabled = true;
+        }
+   }
+
+   void OnEnable()
+    {
+        ObjectiveManager.OnBasicObjectivesCompleted += ShowSwordQuest;
+        ObjectiveManager.OnSwordGrabbed += ShowCaveQuest;
+    }
+
+    void OnDisable()
+    {
+        ObjectiveManager.OnBasicObjectivesCompleted -= ShowSwordQuest;
+        ObjectiveManager.OnSwordGrabbed += ShowCaveQuest;
+    }
 }

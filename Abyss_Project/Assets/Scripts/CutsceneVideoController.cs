@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
 
-public class CutsceneVideoTrigger : MonoBehaviour
+public class CutsceneVideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;   // Drag the VideoPlayer component here
     public RawImage rawImage;         // Drag the RawImage component here
