@@ -10,12 +10,14 @@ public class ObjectivesUI : MonoBehaviour
 
    void Start()
    {
-        if (description.text.Contains("Grab sword") || description.text.Contains("Enter cave"))
-        {
-            counter.enabled = false;
-            description.enabled = false;
-        }
+        counter.enabled = false;
+        description.enabled = false;
 
+        if (description.text.Contains("Survey"))
+        {
+            counter.enabled = true;
+            description.enabled = true;
+        }
    }
 
    public void UpdateAppleQuest(PlayerInventory playerInventory)
@@ -68,8 +70,7 @@ public class ObjectivesUI : MonoBehaviour
 
         if (playerInventory.NumberOfSurveys == 1)
         {
-            counter.text = "";
-            description.text = "- Done";
+            Debug.Log("Survey done");
         }
    }
 
@@ -102,8 +103,21 @@ public class ObjectivesUI : MonoBehaviour
         }
    }
 
+   public void ShowMainQuests()
+   {
+        counter.enabled = true;
+        description.enabled = true;
+
+        if (description.text.Contains("Survey") || description.text.Contains("Enter cave") || description.text.Contains("Grab sword"))
+        {
+            counter.enabled = false;
+            description.enabled = false;
+        }
+   }
+
    void OnEnable()
     {
+        ObjectiveManager.OnSurveyComplete += ShowMainQuests;
         ObjectiveManager.OnBasicObjectivesCompleted += ShowSwordQuest;
         ObjectiveManager.OnSwordGrabbed += ShowCaveQuest;
     }
@@ -111,6 +125,7 @@ public class ObjectivesUI : MonoBehaviour
     void OnDisable()
     {
         ObjectiveManager.OnBasicObjectivesCompleted -= ShowSwordQuest;
-        ObjectiveManager.OnSwordGrabbed += ShowCaveQuest;
+        ObjectiveManager.OnSwordGrabbed -= ShowCaveQuest;
+        ObjectiveManager.OnSurveyComplete -= ShowMainQuests;
     }
 }

@@ -8,6 +8,8 @@ public class HideObjectives : MonoBehaviour
 
     public void HideTextInObjectives(GameObject panel)
     {
+        Debug.Log("Clearing UI...");
+
         // Unity UI Text
         Text[] uiTexts = panel.GetComponentsInChildren<Text>(true);
         foreach (Text t in uiTexts)
