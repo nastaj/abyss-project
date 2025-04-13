@@ -1,4 +1,5 @@
 using UnityEngine;
+using SmallHedge.SoundManager;
 
 public class CharacterMove : MonoBehaviour
 {

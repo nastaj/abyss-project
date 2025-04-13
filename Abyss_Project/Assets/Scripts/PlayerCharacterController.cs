@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KinematicCharacterController;
 using System;
+using SmallHedge.SoundManager;
 
   public struct PlayerInputs
   {
@@ -29,6 +30,8 @@ using System;
         private Vector3 _moveInputVector, _lookInputVector;
         private bool _jumpRequested;
         private Animator _animator;
+        private float footstepCooldown = 0.6f;
+        private float footstepTimer = 0f;
 
         private void Start()
         {
@@ -56,6 +59,7 @@ using System;
             if(inputs.JumpPressed)
             {
                 _jumpRequested = true;
+                SoundManager.PlaySound(SoundType.JUMP);
             }
         }
 
@@ -111,12 +115,24 @@ using System;
             // Determine if the player is moving on the ground
             Vector3 horizontalVelocity = Vector3.ProjectOnPlane(_motor.Velocity, _motor.CharacterUp);
             bool isMoving = horizontalVelocity.sqrMagnitude > 0.1f;
-
+    
             // Set the Animator parameter
             _animator.SetBool("isMoving", isMoving);
 
+            if(isMoving)
+            {
+                // Play footstep sound with interval
+                footstepTimer += Time.deltaTime;
+                if (footstepTimer >= footstepCooldown)
+                {
+                    SoundManager.PlaySound(SoundType.FOOTSTEP);
+                    footstepTimer = 0f;
+                }
+            }
+
             // Check jump state (for isJumping)
             bool isJumping = !_motor.GroundingStatus.IsStableOnGround;
+
             _animator.SetBool("isJumping", isJumping);
         }
 
@@ -133,7 +149,7 @@ using System;
 
         public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
         {
-            // This is called when the motor's movement logic detects a hit
+
         }
 
         public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)

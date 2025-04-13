@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using SmallHedge.SoundManager;
 
 public class ObjectiveManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class ObjectiveManager : MonoBehaviour
     public static event System.Action OnSwordGrabbed;
     public static event System.Action OnSurveyComplete;
     public static ObjectiveManager Instance;
+    public GameObject CutsceneCorruptionCollider;
     public GameObject sword;
     public GameObject apples;
     public GameObject meat;
@@ -30,6 +32,7 @@ public class ObjectiveManager : MonoBehaviour
 
     void Start()
     {
+        CutsceneCorruptionCollider.SetActive(false);
         apples.SetActive(false);
         meat.SetActive(false);
         mushrooms.SetActive(false);
@@ -40,6 +43,7 @@ public class ObjectiveManager : MonoBehaviour
     {
         if (IsSurveyComplete())
         {
+            CutsceneCorruptionCollider.SetActive(true);
             apples.SetActive(true);
             meat.SetActive(true);
             mushrooms.SetActive(true);
@@ -50,9 +54,14 @@ public class ObjectiveManager : MonoBehaviour
             OnSurveyComplete?.Invoke();
         }
 
+        if (AreApplesComplete())
+        {
+            apples.SetActive(false);
+        }
+
         bool complete = playerInventory.NumberOfApples >= 10 &&
                         playerInventory.NumberOfMushrooms >= 3 &&
-                        playerInventory.NumberOfSamples >= 2 &&
+                        playerInventory.NumberOfSamples >= 3 &&
                         playerInventory.NumberOfMeat >= 1 &&
                         playerInventory.NumberOfSurveys >= 1;
 
@@ -60,7 +69,7 @@ public class ObjectiveManager : MonoBehaviour
         {
             hideObjectives.HideTextInObjectives(hideObjectives.objectivesPanel);
 
-            objectivesBrief.text = "It looks like the corruption has its roots in the caves. Researchers were right to be cautious - I should get ready and investigate.";
+            objectivesBrief.text = "It looks like the corruption has its roots in the caves. I need to get my sword from the camp and investigate.";
 
             // Trigger event
             OnBasicObjectivesCompleted?.Invoke();
@@ -87,6 +96,11 @@ public class ObjectiveManager : MonoBehaviour
     public bool IsSurveyComplete()
     {
         return playerInventory.NumberOfSurveys >= 1;
+    }
+
+    public bool AreApplesComplete()
+    {
+        return playerInventory.NumberOfApples >= 10;
     }
 
     public void CaveEntered()

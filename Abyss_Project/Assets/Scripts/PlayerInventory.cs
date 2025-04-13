@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using SmallHedge.SoundManager;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -21,35 +22,41 @@ public class PlayerInventory : MonoBehaviour
     {
         NumberOfApples++;
         OnAppleCollected.Invoke(this);
+        SoundManager.PlaySound(SoundType.COLLECT);
     }
 
     public void MushroomCollected()
     {
         NumberOfMushrooms++;
         OnMushroomCollected.Invoke(this);
+        SoundManager.PlaySound(SoundType.COLLECT);
     }
 
     public void SampleCollected()
     {
         NumberOfSamples++;
         OnSampleCollected.Invoke(this);
+        SoundManager.PlaySound(SoundType.COLLECT);
     }
 
     public void MeatCollected()
     {
         NumberOfMeat++;
         OnMeatCollected.Invoke(this);
+        SoundManager.PlaySound(SoundType.COLLECT);
     }
 
     public void SurveyCollected()
     {
         NumberOfSurveys++;
         OnSurveyCollected.Invoke(this);
+        SoundManager.PlaySound(SoundType.COLLECT);
     }
 
     public void SwordCollected()
     {
         NumberOfSwords++;
         OnSwordCollected.Invoke(this);
+        SoundManager.PlaySound(SoundType.COLLECT);
     }
 }

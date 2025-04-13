@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CutsceneVideoController : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class CutsceneVideoController : MonoBehaviour
     {
         // Do something after the video ends (e.g., transition to the next scene)
         videoPanel.SetActive(false);  // Hide the video panel after video ends
+        SceneManager.LoadScene("EndMenu");
         Debug.Log("Cutscene Finished!");
     }
 

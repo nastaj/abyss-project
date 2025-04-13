@@ -46,7 +46,7 @@ public class ObjectivesUI : MonoBehaviour
    {
         counter.text = playerInventory.NumberOfSamples.ToString();
 
-        if (playerInventory.NumberOfSamples == 2)
+        if (playerInventory.NumberOfSamples == 3)
         {
             counter.text = "";
             description.text = "- Done";
