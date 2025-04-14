@@ -2,46 +2,58 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio; // Needed for controlling mixers
 
 public class CutsceneVideoController : MonoBehaviour
 {
-    public VideoPlayer videoPlayer;   // Drag the VideoPlayer component here
-    public RawImage rawImage;         // Drag the RawImage component here
-    public GameObject videoPanel;     // Drag the UI Panel here to activate during video playback
+    public VideoPlayer videoPlayer;
+    public RawImage rawImage;
+    public GameObject videoPanel;
+    public AudioMixer audioMixer; // Drag your mixer here
+    public string ambienceVolumeParameter = "AmbienceVolume"; // Must match exposed name
+    public Timer timerScript;           // Reference to the Timer script
+    public GameObject timerUI;         // The UI object that displays the time
 
     void Start()
     {
-        // Make sure the video panel is inactive at the start
         videoPanel.SetActive(false);
     }
 
     public void PlayEndCutscene()
     {
-        // Activate the video panel (it will be visible now)
-        videoPanel.SetActive(true);
+         // Stop the timer logic
+        if (timerScript != null)
+            timerScript.enabled = false;
 
-        // Play the video
+        // Hide the timer UI
+        if (timerUI != null)
+            timerUI.SetActive(false);
+
+        videoPanel.SetActive(true);
         videoPlayer.Play();
+
+        // Mute ambience (set volume to -80 dB, which is silence)
+        audioMixer.SetFloat(ambienceVolumeParameter, -80f);
     }
 
-    // Called when the video finishes playing
     public void OnVideoFinished(VideoPlayer vp)
     {
-        // Do something after the video ends (e.g., transition to the next scene)
-        videoPanel.SetActive(false);  // Hide the video panel after video ends
+        videoPanel.SetActive(false);
         SceneManager.LoadScene("EndMenu");
+
+        // Optionally restore ambience volume if needed
+        audioMixer.SetFloat(ambienceVolumeParameter, 0f); // 0 dB is full volume
+
         Debug.Log("Cutscene Finished!");
     }
 
     void OnEnable()
     {
-        // Subscribe to the event that gets triggered when the video finishes
         videoPlayer.loopPointReached += OnVideoFinished;
     }
 
     void OnDisable()
     {
-        // Unsubscribe from the event when the object is disabled or destroyed
         videoPlayer.loopPointReached -= OnVideoFinished;
     }
 }

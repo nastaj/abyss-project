@@ -8,6 +8,6 @@ namespace SmallHedge.SoundManager
         FOOTSTEP,
         JUMP,
         COLLECT,
-        FOREST_AMBIENT
+        DIALOGUE_TYPE
     }
 }

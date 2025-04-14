@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using SmallHedge.SoundManager;
 
 public class CutsceneDialogue : MonoBehaviour
 {
@@ -48,6 +49,7 @@ public class CutsceneDialogue : MonoBehaviour
         foreach (char letter in line.ToCharArray())
         {
             dialogueText.text += letter;
+            SoundManager.PlaySound(SoundType.DIALOGUE_TYPE);
             yield return new WaitForSeconds(typingSpeed);
         }
     }

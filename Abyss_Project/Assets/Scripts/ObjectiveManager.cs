@@ -54,6 +54,11 @@ public class ObjectiveManager : MonoBehaviour
             OnSurveyComplete?.Invoke();
         }
 
+        if (IsMeatCollected())
+        {
+            meat.SetActive(false);
+        }
+
         if (AreApplesComplete())
         {
             apples.SetActive(false);
@@ -101,6 +106,11 @@ public class ObjectiveManager : MonoBehaviour
     public bool AreApplesComplete()
     {
         return playerInventory.NumberOfApples >= 10;
+    }
+
+    public bool IsMeatCollected()
+    {
+        return playerInventory.NumberOfMeat >= 1;
     }
 
     public void CaveEntered()
