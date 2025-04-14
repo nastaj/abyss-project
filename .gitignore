@@ -38,3 +38,6 @@ Thumbs.db
 
 # Files relevant to the module
 misc/
+
+# Build
+radiant-game/
